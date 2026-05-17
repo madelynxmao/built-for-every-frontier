@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Devin is built for every frontier | Cognition</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Serif:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f7f6f5;
+    --text: #161614;
+    --border: #d4d2ca;
+    --accent-blue: #2547e8;
+    --sidebar-width: 220px;
+    --content-max: 680px;
+    --tick-color: #c9c7be;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: 'PT Serif', Georgia, 'Times New Roman', serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 17px;
+    line-height: 1.6;
+    font-weight: 400;
+  }
+
+  body, body * { color: var(--text); }
+
+  /* Top decorative tick marks */
+  .top-ticks {
+    position: relative;
+    height: 16px;
+    pointer-events: none;
+  }
+  .top-ticks span {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 16px;
+    background: var(--tick-color);
+  }
+  .tick-1 { left: 0; }
+  .tick-2 { left: calc(var(--sidebar-width) - 1px); }
+  .tick-3 { left: var(--sidebar-width); }
+  .tick-4 { right: 0; }
+
+  .layout {
+    display: flex;
+    min-height: calc(100vh - 16px);
+  }
+
+  /* Sidebar */
+  aside {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    padding: 112px 24px 48px 64px;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 16px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .logo-img {
+    display: block;
+    width: 26px;
+    height: 26px;
+    object-fit: contain;
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  .sidebar-nav a {
+    text-decoration: none;
+    padding: 1px 0;
+    position: relative;
+    transition: color 0.15s ease;
+  }
+
+  .sidebar-nav a:hover { color: var(--accent-blue) !important; }
+  .sidebar-nav a.active { color: var(--accent-blue) !important; }
+
+  .sidebar-nav a.active::before {
+    content: "";
+    position: absolute;
+    left: -9px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1.5px;
+    height: 12px;
+    background: var(--accent-blue);
+  }
+
+  .sidebar-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 3px 14px;
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-size: 13px;
+    text-decoration: none;
+    line-height: 1.5;
+    transition: all 0.15s ease;
+  }
+
+  .btn-primary {
+    background: var(--text);
+    color: var(--bg) !important;
+    border: 1px solid var(--text);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border: 1px solid var(--text);
+  }
+
+  .btn-secondary:hover {
+    background: var(--text);
+    color: var(--bg) !important;
+  }
+
+  /* Main content */
+  main {
+    flex: 1;
+    padding: 112px 56px 80px;
+    min-width: 0;
+  }
+
+  .article {
+    max-width: var(--content-max);
+    margin: 0 auto;
+  }
+
+  h1.post-title {
+    font-family: 'Accolade EF Light', 'AccoladeEF-Light', 'PT Serif', Georgia, serif;
+    font-size: 36px;
+    line-height: 1.12;
+    font-weight: 300;
+    letter-spacing: -0.012em;
+    margin-bottom: 28px;
+  }
+
+  .byline-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: 'IBM Plex Mono', 'Menlo', monospace;
+    font-size: 11px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+    letter-spacing: 0;
+  }
+
+  .post-body p {
+    margin-bottom: 18px;
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .post-body h2 {
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    margin-top: 44px;
+    margin-bottom: 22px;
+    padding-top: 44px;
+    border-top: 1px solid var(--border);
+  }
+
+  .post-body h3 {
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    margin-top: 26px;
+    margin-bottom: 12px;
+  }
+
+  .post-body figure {
+    margin: 26px 0;
+  }
+
+  .post-body figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .post-body figcaption {
+    font-family: 'PT Serif', Georgia, serif;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-top: 12px;
+  }
+
+  .post-body figcaption strong {
+    font-style: normal;
+    font-weight: 600;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .top-ticks { display: none; }
+    .layout { flex-direction: column; min-height: 100vh; }
+
+    aside {
+      width: 100%;
+      height: auto;
+      position: static;
+      padding: 24px 24px 16px;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-nav {
+      flex-direction: row;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .sidebar-nav a.active::before { display: none; }
+
+    .sidebar-buttons { flex-direction: row; }
+
+    main { padding: 40px 24px 56px; }
+
+    h1.post-title { font-size: 28px; }
+  }
+
+  @media (max-width: 600px) {
+    aside { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-ticks">
+  <span class="tick-1"></span>
+  <span class="tick-2"></span>
+  <span class="tick-3"></span>
+  <span class="tick-4"></span>
+</div>
+
+<div class="layout">
+  <aside>
+    <a href="https://cognition.ai" aria-label="Cognition home">
+      <img class="logo-img" alt="Cognition" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFEAAABRCAYAAACqj0o2AAAFS0lEQVR42u2dWVcaSRSAb+X45At1fPDJXzRLYpw5TkyMgg6DGIMoi45hNxEQECHK5r6S8cy4gfOTZuax/4DeeciBKLJ0U01TQt1z+oXq7qr6+t6qe29VNwQRQQibPBMIBEQBUUDUQCilWDo8LjcKiArE5/EipfQBtOTGZ6CU4lY2xx1MwtPsnMtk0bm4IOvc0+MT+O6H74mAWGG6zVwnSRLpenMujXks18diMexaTWSBVymRSBiMRhMREBmlXaYt/EQBUUAUEIVwAPH8z79QQKyQiwtlUP7571+hiSXJZtNIKUWDYVKR4+xyudrS4cvzC7yf2KCUYvG6wGQVTfuJxWIRR0dHa5ZbLDMQCHwkWviHcv3ERvU262c2BVEpBJ/PB319fWCxWFqqZbUg+L0+jCfWZd3DapkFX8BPWgYxEAjg2toal+NSJpWGV69HHnR+Z2sbbQ57U/dLxNdh3KAnqkEsFq5w9O04twN7NQ1Ua8iQY+KyJhZeAUaj0ZYCBACQk1GXpYlaTgRy6rJareDz+QgviY0enkyw9Pv11QWOjRtUnUE7LmLJ5XJ1y5+/eEkkSSKJ9W+T2NHhPpcA22bOrYahdXs110Sz2SwSEMyqT4iAyFzhM2VV7mzn8GB/V7Z57u3tYcdDhDt5fVwNB5FSija7E2at80AplQVzbm6u8zXx7u6ubvnR4T5SSnElGH5UVoKptT/bSDT3E3t7e5ln1fvnWSwWSCaT/Ls421tZtDsWVKmw1WGa2nJ0uA8/Ph9kd3F+NZoIq2/ndNgeAfxymkeeAUqSRBoBlK2J9yV/cormd9OqOKu8AlSqMIonlpE3r4kkScTr9jQ89/jwqC2hmiRJpPJYj8caXpdObTTVXuZtJNW0KRKJgNFoJM1c22otWvm0jKuRh0CXlhbB6Vxs+mGrthdndTWK/f39oNePEZYHwJTYyKZh+JcRWfWnNj9jT08P/GYyM1uK2ND0JCOWDhQBkReI27ktZN3xqoac/ZGXVf/fN4Vye29uCsxtZhoTC1fX+HZ87NHvZtMUBMMhLmfnWnWyjKdNayKltCpAAIB0NgOUUkxtbGqumbUgNbIUSimGgp9QE038GFjG6FpMFe3gNWLZ3EjCm1H5rppsiCy7CWrBrLeq95TCP1nm7HYtMQMsaV6xcFV+aqVVPYd9nkuIlFI8OT7kb/F+btYKXr9PFfO2z9uAUgouj7utGql5Uvb29rZuYy/PL1A/YVDUqRnL+7aOsZo72400f3Doq4mHVoKPyg726i/gd03YJ3cim5o2E0mSyO72Tjm19eJl4wRpLBbrfIiNFqoqZejnnxRp1+TkJOl4iJ0oYi+OCu1tiyaenZ3J6mR8LVpOFHzJn6DQRAVPN5/PY62NT3K0uCs0sdTReDz+8DsPySRSSrHezjEeUm5cTSx+v//hF0c8HkUPIZFIVIVpNk2p1kan3aFeAoLnRfbd3V0YGhoirWivam8PlG6Wy2W4hDgxMQEnR8dY2V4WL0DJ9YrMeXj41deFe6/8gH95ebncoFQq1TKQ797P1ISRTct/+JlUWrELxrQ8UM9k4vEYGAzVowePx4Ot2MnVqPOhlSCGVsNVy9wfXGBz2LV7t68eTJttDtxuL5frK7XqZnX+27Z4r+RrTLxEQty5OAMDA90VO3dKjCuyOByLgCggCogCIm8SDq10J0RJksiCk31TQCKRANPUdNteGnzSX/Js9AZ+10EEALi8vES9Xs+1T8j9mDg4OPh14T4UqnnOwcEBf2/gIyK3h+vD76jT6VCn02EmvYm8tpOIP3AQLo6AKCAKKcv/cvfVhk7urL0AAAAASUVORK5CYII=">
+    </a>
+
+    <nav class="sidebar-nav">
+      <a href="https://cognition.ai">Home</a>
+      <a href="https://cognition.ai/careers">Careers</a>
+      <a href="https://cognition.ai/research">Research</a>
+      <a href="https://cognition.ai/blog" class="active">Blog</a>
+      <a href="https://cognition.ai/contact">Contact</a>
+    </nav>
+
+    <div class="sidebar-buttons">
+      <a href="https://devin.ai" class="btn btn-primary">Devin</a>
+      <a href="https://windsurf.com" class="btn btn-secondary">Windsurf</a>
+    </div>
+  </aside>
+
+  <main>
+    <article class="article">
+      <h1 class="post-title">Devin is built for every frontier</h1>
+
+      <div class="byline-row">
+        <span class="author">By The Cognition Team</span>
+        <span class="date">05.18.26</span>
+      </div>
+
+      <div class="post-body">
+        <p>Model flexibility is essential for sustainable AI engineering. Devin decouples the agent platform from individual model providers, letting teams deploy the latest frontier models within minutes of their release. Teams can put new AI advances to work immediately, match specific engineering tasks with the most efficient model, and coordinate specialized multi-agent systems.</p>
+
+        <h2>Why model flexibility matters for engineering teams</h2>
+
+        <h3>1. Progress at the frontier is steady; leadership at the frontier is not</h3>
+
+        <p>The model a team runs in production today may lead on long-horizon reasoning, planning, tool use, and code review. Tomorrow, a new SOTA model can make those metrics look ordinary.</p>
+
+        <figure>
+          <img src="chart_1.png" alt="Chart showing highest published SWE-Bench Pro score over time by model release date" />
+          <figcaption><strong>Figure 1.</strong> Highest published SWE-Bench Pro score over time, by model release date. No singular benchmark captures software engineering ability, but the pattern is clear: the frontier changes quickly enough that teams should not build their engineering process around one provider.</figcaption>
+        </figure>
+
+        <p>The benchmark shows more than just fast progress. The release cadence is accelerating: from new SOTA models emerging every ~2 months in late 2025 to every ~2-4 weeks recently. A stack that assumes today’s leader will remain the best choice for every task, or that one provider will stay ahead across all capabilities, will fall behind.</p>
+
+        <p>For software teams, this progress is good news, but only if they can absorb it into their workflows. Instead of turning the model race into a continuous migration project, engineering teams should use it as an accelerant by treating the underlying model as a parameter—one that is chosen for the specific task, swapped as the frontier changes, and embedded directly into the systems that ship production code.</p>
+
+        <h3>2. Different tasks demand different models</h3>
+
+        <p>Different models excel at different tasks. The strongest reasoning models earn their cost on hard debugging, ambiguous product work, complex codebase changes, and long-horizon refactors. Smaller, cost-efficient models earn theirs on high-volume work where speed and cost are bottlenecks: code checks, test generation, small fixes, repetitive migrations.</p>
+
+        <p>But the distinction is not only strength versus cost. It is also the shape of the work. A model that is excellent at backend debugging may not be the best model for UI prototyping, vision-heavy design review, or creative product iteration. An infra engineer hunting a production bug, a frontend engineer refining interaction states, and a design engineer reviewing screenshots may each want a different model behind the same workflow.</p>
+
+        <h3>3. A team of agents works best with a team of models</h3>
+
+        <p>Model flexibility matters when one agent is working. It matters even more when many agents are working in parallel.</p>
+
+        <p>In a multi-agent system, you do not want every task going to the same model by default. In an optimized workflow, you might want a planning agent on the strongest reasoning model, implementation agents on faster cost-efficient models, a review agent on a model trained for bug detection, and retrieval agents optimized for finding the right code context quickly. Aligning these specialized models with specific agent roles allows teams to solve long-running, multi-step engineering problems.</p>
+
+        <h2>Every Frontier Gain, Inside Your Workflow</h2>
+
+        <p>The model race is not slowing down, and different models are increasingly taking the lead on planning, coding, review, visual reasoning, speed, and cost. The teams that benefit from this rapid progress are the ones whose tooling can keep up. For individual engineers, this means spinning up a team of specialized agents—planning, implementation, review, retrieval. For teams and enterprises, it means adopting AI software engineering without committing their engineering stack to a single model provider. The winning strategy is not picking one model and hoping it stays ahead, but establishing a stable layer that quickly absorbs every frontier gain.</p>
+      </div>
+    </article>
+  </main>
+</div>
+
+</body>
+</html>
